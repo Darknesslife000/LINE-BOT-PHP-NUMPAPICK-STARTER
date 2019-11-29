@@ -5,12 +5,12 @@
 const char* ssid     = "TPST_2.4G"; //change this to your SSID
 const char* password = "A123456789"; //change this to your PASSWORD
 
-const char* host = "your linebot server";//change this to your linebot server ex.http://numpapick-linebot.herokuapp.com/bot.php
-#define APPID   "your APPID"     //change this to your APPID
-#define KEY     "your KEY"     //change this to your KEY
-#define SECRET  "your SECRET"     //change this to your SECRET
+const char* host = "https://esp32linealert.herokuapp.com/bot.php";//change this to your linebot server ex.http://numpapick-linebot.herokuapp.com/bot.php
+#define APPID   "ESP32LineAlert"     //change this to your APPID
+#define KEY     "fnlNqnV39yvVZcI"     //change this to your KEY
+#define SECRET  "LoLGJN2dkZDYneEreW6yaQLes"     //change this to your SECRET
 
-#define ALIAS   "NodeMCU1" //set name of drvice
+#define ALIAS   "LineAlert" //set name of drvice
 #define TargetWeb "switch" //set target name of web
 
 WiFiClient client;
