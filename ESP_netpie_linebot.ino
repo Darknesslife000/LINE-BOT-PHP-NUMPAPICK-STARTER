@@ -2,37 +2,41 @@
 #include <MicroGear.h>
 #include <WiFi.h>
 #include <ArduinoJson.h>
+
 const char* ssid     = "TPST_2.4G"; //change this to your SSID
 const char* password = "A123456789"; //change this to your PASSWORD
-
 const char* host = "https://esp32linealert.herokuapp.com/bot.php";//change this to your linebot server ex.http://numpapick-linebot.herokuapp.com/bot.php
+
 #define APPID   "ESP32LineAlert"     //change this to your APPID
 #define KEY     "fnlNqnV39yvVZcI"     //change this to your KEY
 #define SECRET  "LoLGJN2dkZDYneEreW6yaQLes"     //change this to your SECRET
-
 #define ALIAS   "LineAlert" //set name of drvice
 #define TargetWeb "switch" //set target name of web
 
 WiFiClient client;
-String uid = "";
+String uid = "", msg_st = "";
 int timer = 0;
 MicroGear microgear(client);
 
 void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) { // 
+    char *ms = (char *)msg;
     Serial.print("Incoming message -->");
     msg[msglen] = '\0';
-Serial.println((char *)msg);
-    if((char *)msg == "ON"){
+    msg_st = ms;
+Serial.println(msg_st);
+    if(msg_st == "ON"){
         digitalWrite(LED_BUILTIN, LOW);   // LED on
         //microgear.chat(TargetWeb,"1");
         //send_data("ESP_LED_ON");
         send_json("ESP LED ON");
+        msg_st == "";
     }
-    if((char *)msg == "OFF"){
+    if(msg_st == "OFF"){
         digitalWrite(LED_BUILTIN, HIGH);  // LED off
       //microgear.chat(TargetWeb,"0");
       //send_data("ESP_LED_OFF");
       send_json("ESP LED OFF");
+      msg_st == "";
     }
 }
 
