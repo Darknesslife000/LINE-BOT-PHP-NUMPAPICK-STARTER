@@ -1,6 +1,6 @@
-#include <ESP8266WiFi.h>
+#include <HTTPClient.h>
 #include <MicroGear.h>
-#include <ESP8266HTTPClient.h>
+#include <WiFi.h>
 #include <ArduinoJson.h>
 const char* ssid     = "TPST_2.4G"; //change this to your SSID
 const char* password = "A123456789"; //change this to your PASSWORD
