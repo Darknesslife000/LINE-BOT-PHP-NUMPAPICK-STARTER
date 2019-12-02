@@ -109,5 +109,5 @@ void loop() {
         }
         else timer += 100;
     }
-    delay(100);
+    delay(1000);
 }
