@@ -108,7 +108,7 @@ void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
   if (msg_st == "สภาพอากาศ") {
     //microgear.chat(TargetWeb,"1");
     //send_data("ESP_LED_ON");
-    watershow(water_now);
+    weathershow(weather_now);
     msg_st == "";
   }
 }
@@ -341,10 +341,6 @@ void send_json(String data) {
   JSONencoder["ESP"] = data;
 
   JsonArray& values = JSONencoder.createNestedArray("values"); //JSON array
-  values.add(20); //Add value to array
-  values.add(21); //Add value to array
-  values.add(23); //Add value to array
-
 
   char JSONmessageBuffer[300];
   JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
