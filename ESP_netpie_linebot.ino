@@ -97,57 +97,6 @@ void rpm () {     //This is the function that the interupt calls
 
   NbTopsFan++;    //This function measures the rising and falling edge of the hall effect sensors signal
 }
-/*---------------------------------"onMsghandler"---------------------------------------*/
-/*---------------------------------"onMsghandler"---------------------------------------*/
-void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
-  char *ms = (char *)msg;
-  Serial.print("Incoming message -->");
-  msg[msglen] = '\0';
-  msg_st = ms;
-  Serial.println(msg_st);
-  if (msg_st == "สภาพอากาศ") {
-    //microgear.chat(TargetWeb,"1");
-    //send_data("ESP_LED_ON");
-    weathershow(weather_now);
-    msg_st == "";
-  }
-}
-/*---------------------------------"onConnected"---------------------------------------*/
-/*---------------------------------"onConnected"---------------------------------------*/
-void onConnected(char *attribute, uint8_t* msg, unsigned int msglen) {
-  Serial.println("Connected to NETPIE...");
-  lcd.setCursor(0, 0);        // ไปที่ตัวอักษรที่ 0 บรรทัดที่ 0
-  lcd.print("NETPIE Connecting");
-  //lcd.clear(); // ล้างหน้าจอ
-  count_wait = 0;
-  while (!microgear.connected()) {
-    Serial.print(".");
-    if (count_wait % 2 == 0) {
-      digitalWrite(RLED_PIN, HIGH); // Pin D2 is HIGH
-    } else {
-      digitalWrite(RLED_PIN, LOW); // Pin D2 is LOW
-    }
-    count_wait++;
-    delay(1000);
-    if (count_wait == 20) {
-      Serial.println();
-      Serial.println("Esp can't connect NETPIE");
-      Serial.println("Esp Restart");
-      ESP.restart(); //ESP.reset();
-    }
-  }
-  digitalWrite(RLED_PIN, LOW); // Pin D2 is LOW
-  digitalWrite(GLED_PIN, HIGH); // Pin D4 is HIGH
-  delay(100);
-  digitalWrite(GLED_PIN, LOW); // Pin D4 is LOW
-  delay(100);
-  digitalWrite(GLED_PIN, HIGH); // Pin D4 is HIGH
-  delay(100);
-  digitalWrite(GLED_PIN, LOW); // Pin D4 is LOW
-  count_wait = 0;
-  microgear.setName(ALIAS);
-  lcd.clear(); // ล้างหน้าจอ
-}
 /*---------------------------------"Sensor"---------------------------------------*/
 /*---------------------------------"Sensor"---------------------------------------*/
 void SensorTask(void*) {
@@ -358,6 +307,86 @@ void send_json(String data) {
   Serial.println(payload);    //Print request response payload
 
   http.end();  //Close connection
+}
+/*---------------------------------"onMsghandler"---------------------------------------*/
+/*---------------------------------"onMsghandler"---------------------------------------*/
+void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) {
+  char *ms = (char *)msg;
+  Serial.print("Incoming message -->");
+  msg[msglen] = '\0';
+  msg_st = ms;
+  Serial.println(msg_st);
+  if ((msg_st == "สภาพอากาศ") || (msg_st == "Weather")) {
+    //microgear.chat(TargetWeb,"1");
+    //send_data("ESP_LED_ON");
+    weathershow(weather_now);
+    watershow(water_now);
+    msg_st == "";
+  }
+  if ((msg_st == "อุณหภูมิ") || (msg_st == "Temperature")) {
+    send_json("อุณหภูมิ : " + String(tmpc, 0) + " องศาเซลเซียส");
+    msg_st == "";
+  }
+  if ((msg_st == "ความชื้น") || (msg_st == "Humidity")) {
+    send_json("ความชื้น : " + String(hum, 0) + " %");
+    msg_st == "";
+  }
+  if ((msg_st == "ความเข้มแสง") || (msg_st == "Light")) {
+    send_json("ความเข้มแสง : " + String(lux) + " lux");
+    msg_st == "";
+  }
+  if ((msg_st == "ปริมาณน้ำฝน") || (msg_st == "Rain")) {
+    send_json("ปริมาณน้ำฝน : " + String(rain_flow) + " mm");
+    msg_st == "";
+  }
+  if ((msg_st == "ระดับน้ำ") || (msg_st == "Water")) {
+    send_json("ระดับน้ำ : " + String(water_level) + " cm");
+    msg_st == "";
+  }
+  if ((msg_st == "คู่มือ") || (msg_st == "คำแนะนำ")) {
+    send_json("คู่มือรับภัยน้ำท่วม > http://www.rd.go.th/region1/fileadmin/pdf/393-54.pdf");
+    msg_st == "";
+  }
+  if ((msg_st == "หมายเลข") || (msg_st == "โทร") || (msg_st == "Phone")) {
+    send_json("เบอร์รับภัยน้ำท่วม โทรสายด่วน 1111 กด 5 ฟรีตลอด 24 ชั่วโมง. หรือ เบอร์อื่น ๆ > http://ilovekamikaze.com/news/GU8NK2KP");
+    msg_st == "";
+  }
+}
+/*---------------------------------"onConnected"---------------------------------------*/
+/*---------------------------------"onConnected"---------------------------------------*/
+void onConnected(char *attribute, uint8_t* msg, unsigned int msglen) {
+  Serial.println("Connected to NETPIE...");
+  lcd.setCursor(0, 0);        // ไปที่ตัวอักษรที่ 0 บรรทัดที่ 0
+  lcd.print("NETPIE Connecting");
+  //lcd.clear(); // ล้างหน้าจอ
+  count_wait = 0;
+  while (!microgear.connected()) {
+    Serial.print(".");
+    if (count_wait % 2 == 0) {
+      digitalWrite(RLED_PIN, HIGH); // Pin D2 is HIGH
+    } else {
+      digitalWrite(RLED_PIN, LOW); // Pin D2 is LOW
+    }
+    count_wait++;
+    delay(1000);
+    if (count_wait == 20) {
+      Serial.println();
+      Serial.println("Esp can't connect NETPIE");
+      Serial.println("Esp Restart");
+      ESP.restart(); //ESP.reset();
+    }
+  }
+  digitalWrite(RLED_PIN, LOW); // Pin D2 is LOW
+  digitalWrite(GLED_PIN, HIGH); // Pin D4 is HIGH
+  delay(100);
+  digitalWrite(GLED_PIN, LOW); // Pin D4 is LOW
+  delay(100);
+  digitalWrite(GLED_PIN, HIGH); // Pin D4 is HIGH
+  delay(100);
+  digitalWrite(GLED_PIN, LOW); // Pin D4 is LOW
+  count_wait = 0;
+  microgear.setName(ALIAS);
+  lcd.clear(); // ล้างหน้าจอ
 }
 /*---------------------------------"SETUP"---------------------------------------*/
 /*---------------------------------"SETUP"---------------------------------------*/
@@ -585,7 +614,7 @@ void weathershow(int weather) {
       //Serial.println("ส่งข้อความ : เวลาปัจจุบัน");
       //send_json("วันเวลาปัจจุบัน " + String(tmpNow));
       Serial.println("ส่งข้อความ : สภาพอากาศปกติ");
-      send_json("สภาพอากาศปกติ อุณหภูมิ : " + String(tmpc, 0) +
+      send_json("สภาพอากาศ ปกติ อุณหภูมิ : " + String(tmpc, 0) +
                 " องศาเซลเซียส ความชื้น : " + String(hum, 0) +
                 " % ความเข้มแสง : " + String(lux) + " lux");
       weather_old = weather_now;
@@ -594,7 +623,7 @@ void weathershow(int weather) {
       //Serial.println("ส่งข้อความ : เวลาปัจจุบัน");
       //send_json("วันเวลาปัจจุบัน " + String(tmpNow));
       Serial.println("ส่งข้อความ : สภาพอากาศร้อน");
-      send_json("สภาพอากาศร้อน อุณหภูมิ : " + String(tmpc, 0) +
+      send_json("สภาพอากาศ ร้อน อุณหภูมิ : " + String(tmpc, 0) +
                 " องศาเซลเซียส ความชื้น : " + String(hum, 0) +
                 " % ความเข้มแสง : " + String(lux) + " lux");
       weather_old = weather_now;
@@ -603,7 +632,7 @@ void weathershow(int weather) {
       //Serial.println("ส่งข้อความ : เวลาปัจจุบัน");
       //send_json("วันเวลาปัจจุบัน " + String(tmpNow));
       Serial.println("ส่งข้อความ : สภาพอากาศหนาว");
-      send_json("สภาพอากาศหนาว อุณหภูมิ : " + String(tmpc, 0) +
+      send_json("สภาพอากาศ หนาว อุณหภูมิ : " + String(tmpc, 0) +
                 " องศาเซลเซียส ความชื้น : " + String(hum, 0) +
                 " % ความเข้มแสง : " + String(lux) + " lux");
       weather_old = weather_now;
@@ -612,7 +641,7 @@ void weathershow(int weather) {
       //Serial.println("ส่งข้อความ : เวลาปัจจุบัน");
       //send_json("วันเวลาปัจจุบัน " + String(tmpNow));
       Serial.println("ส่งข้อความ : ฝนตก");
-      send_json("สภาพอากาศหนาว อุณหภูมิ : " + String(tmpc, 0) +
+      send_json("สภาพอากาศ ฝนตก อุณหภูมิ : " + String(tmpc, 0) +
                 " องศาเซลเซียส ความชื้น : " + String(hum, 0) +
                 " % ความเข้มแสง : " + String(lux) + " lux");
       Serial.println("ส่งข้อความ : ปริมาณฝน");
@@ -623,7 +652,7 @@ void weathershow(int weather) {
       //Serial.println("ส่งข้อความ : เวลาปัจจุบัน");
       //send_json("วันเวลาปัจจุบัน " + String(tmpNow));
       Serial.println("ส่งข้อความ : ฝนตกหนัก");
-      send_json("สภาพอากาศหนาว อุณหภูมิ : " + String(tmpc, 0) +
+      send_json("สภาพอากาศ ฝนตกหนัก อุณหภูมิ : " + String(tmpc, 0) +
                 " องศาเซลเซียส ความชื้น : " + String(hum, 0) +
                 " % ความเข้มแสง : " + String(lux) + " lux");
       Serial.println("ส่งข้อความ : ปริมาณฝน");
@@ -634,7 +663,7 @@ void weathershow(int weather) {
       //Serial.println("ส่งข้อความ : เวลาปัจจุบัน");
       //send_json("วันเวลาปัจจุบัน " + String(tmpNow));
       Serial.println("ส่งข้อความ : ฝนตกหนักมาก");
-      send_json("สภาพอากาศหนาว อุณหภูมิ : " + String(tmpc, 0) +
+      send_json("สภาพอากาศ ฝนตกหนักมาก อุณหภูมิ : " + String(tmpc, 0) +
                 " องศาเซลเซียส ความชื้น : " + String(hum, 0) +
                 " % ความเข้มแสง : " + String(lux) + " lux");
       Serial.println("ส่งข้อความ : ปริมาณฝน");
@@ -779,15 +808,16 @@ void loop() {
     weathershow(weather_now);
   }
 
-  if ((data_timein[4] == 0) && (data_timein[5] == 0) || (data_timein[4] == 30) && (data_timein[5] == 0)) {    //ช่วงการทำงาน
-    weathershow(weather_now);
-  }
-
   if (water_level > 0) {    //กรณีมีน้ำท่วม
     //waterlevel();
     if (water_now != water_old) {
       watershow(water_now);
     }
+  }
+
+  if ((data_timein[4] == 0) && (data_timein[5] == 0)) {    //ช่วงการทำงาน
+    weathershow(weather_now);
+    watershow(water_now);
   }
 
   if ((microgear.connected()) && (WiFi.status() == WL_CONNECTED)) {
