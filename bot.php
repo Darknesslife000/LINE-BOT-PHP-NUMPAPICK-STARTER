@@ -16,8 +16,7 @@ if (!is_null($events['ESP'])) {
 	$msgcut = ",".$msgindex1.",".$msgindex2;
 	$events['ESP'] = str_replace($msgcut," ",$events['ESP']);
 
-	send_LINE($events['ESP']);
-	Sticker_LINE($msgindex1, $msgindex2);
+	send_LINE($events['ESP'], $msgindex1, $msgindex2);
 		
 	echo "OK";
 	}
