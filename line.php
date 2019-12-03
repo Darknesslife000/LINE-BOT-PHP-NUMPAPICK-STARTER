@@ -8,6 +8,9 @@ function send_LINE($msg){
         'type' => 'text',
         'text' => $msg
         //'text' => $text
+   type: "sticker",
+        packageId: 11537,
+        stickerId: 52002744
       ];
 
       // Make a POST Request to Messaging API to reply to sender
