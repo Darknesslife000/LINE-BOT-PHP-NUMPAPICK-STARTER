@@ -1,7 +1,6 @@
 <?php
  require("pub.php");
  require("line.php");
- require("Sticker.php");
 
 // Get POST body content
 $content = file_get_contents('php://input');
