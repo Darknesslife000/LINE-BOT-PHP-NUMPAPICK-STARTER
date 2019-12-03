@@ -616,7 +616,7 @@ void weathershow(int weather) {
       Serial.println("ส่งข้อความ : สภาพอากาศปกติ");
       send_json("สภาพอากาศ ปกติ อุณหภูมิ : " + String(tmpc, 0) +
                 " องศาเซลเซียส ความชื้น : " + String(hum, 0) +
-                " % ความเข้มแสง : " + String(lux) + " lux");
+                " % ความเข้มแสง : " + String(lux) + " lux" + ",11537,52002744");
       weather_old = weather_now;
       break;
     case 2 :  //อากาศร้อน
