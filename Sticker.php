@@ -1,5 +1,6 @@
  <?php
   
+
 function Sticker_LINE($msg1 ,$msg2){
  $access_token = 'ONVddqupMYPMxbOdCLuqs/KZGks91b6Hnp7szQIDmAvIPmCsN4Lr/rqSiMTtNfMGeFEqVhDPJuSkYeG/1OI3hFLO6gD//vlgSkXPTNowltqK2Bvb6S6z7kesOVNGX9fgEtSfP8otd/S1Yya8RNlY5QdB04t89/1O/w1cDnyilFU='; 
 
