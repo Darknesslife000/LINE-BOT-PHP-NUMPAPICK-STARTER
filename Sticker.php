@@ -6,8 +6,8 @@ function Sticker_LINE($msg1 ,$msg2){
 
   $messages = [
         type: "sticker",
-        packageId: "$msg1",
-        stickerId: "$msg2"
+        packageId: $msg1,
+        stickerId: $msg2
       ];
 
       // Make a POST Request to Messaging API to reply to sender
