@@ -14,9 +14,9 @@ if (!is_null($events['ESP'])) {
 	$msgindex1 = substr($events['ESP'],$nub+1,5);
 	$msgindex2 = substr($events['ESP'],$nub+7,8);
 	$msgcut = ",".$msgindex1.",".$msgindex2;
-	$events['ESP'] = str_replace($msgcut," ",$events['ESP']);
+	$msgnewcut = str_replace($msgcut," ",$events['ESP']);
 
-	send_LINE($events['ESP'], $msgindex1, $msgindex2);
+	send_LINE($msgnewcut , $msgindex1, $msgindex2);
 		
 	echo "OK";
 	}
