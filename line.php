@@ -9,11 +9,13 @@ function send_LINE($msg1, $msg2, $msg3){
         'text' => $msg1
         //'text' => $text
       ];
+ /*
   $messages2 = [
         'type' => 'sticker',
         'packageId' => $msg2,
         'stickerId' => $msg3
       ];
+      */
 
       // Make a POST Request to Messaging API to reply to sender
       $url = 'https://api.line.me/v2/bot/message/push';
@@ -22,13 +24,15 @@ function send_LINE($msg1, $msg2, $msg3){
         'to' => 'U14ed3772ba0d4ddf60f84aa9b5bb9dba',
         'messages' => [$messages1],
       ];
-      $data2 = [
+ /*     
+ $data2 = [
 
         'to' => 'U14ed3772ba0d4ddf60f84aa9b5bb9dba',
         'messages' => [$messages2],
       ];
+      */
       $post1 = json_encode($data1);
-      $post2 = json_encode($data2);
+      /*$post2 = json_encode($data2);*/
       $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
 
       $ch = curl_init($url);
@@ -38,12 +42,12 @@ function send_LINE($msg1, $msg2, $msg3){
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
       $result = curl_exec($ch);
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+      /*curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $post2);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-      $result = curl_exec($ch);
+      $result = curl_exec($ch);*/
       curl_close($ch);
 
       echo $result . "\r\n"; 
