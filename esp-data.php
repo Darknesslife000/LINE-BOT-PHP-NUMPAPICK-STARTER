@@ -12,7 +12,7 @@
   copies or substantial portions of the Software.
 */
 
-$servername = "http://localhost/phpmyadmin/";
+$servername = "localhost";
 
 // REPLACE with your Database name
 $dbname = "linealert";
