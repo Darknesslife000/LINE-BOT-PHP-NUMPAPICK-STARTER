@@ -12,7 +12,7 @@
   copies or substantial portions of the Software.
 */
 
-$servername = "http://localhost/phpmyadmin/#PMAURL-24:db_structure.php?db=linealert&table=&server=1&target=&token=46c35ecb2982334afda9d1bd25800751";
+$servername = "http://localhost/phpmyadmin/";
 
 // REPLACE with your Database name
 $dbname = "linealert";
