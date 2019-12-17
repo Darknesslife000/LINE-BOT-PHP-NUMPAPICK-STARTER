@@ -12,7 +12,7 @@
   copies or substantial portions of the Software.
 */
 
-$servername = "localhost";
+$servername = "127.0.0.1";
 
 // REPLACE with your Database name
 $dbname = "linealert";
