@@ -12,7 +12,7 @@
   copies or substantial portions of the Software.
 */
 
-$servername = "https://git.heroku.com/esp32linealert.git";
+$servername = "localhost";
 
 // REPLACE with your Database name
 $dbname = "linealert";
